@@ -7,6 +7,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get clean
 RUN apt-get install -y \
     pdns-backend-pgsql \
     pdns-server \
+    postgresql-client \
+    tini \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PG_HOST=pghost
@@ -20,8 +22,9 @@ ENV PDNS_APIKEY=changeit
 ADD pdns.sh /pdns.sh
 RUN chmod u+x /pdns.sh
 
-# Default DNS ports
-EXPOSE 53/udp
+ENTRYPOINT [ "/usr/bin/tini", "--" ]
+CMD [ "/pdns.sh" ]
+
 EXPOSE 53/tcp
 # Default webserver port
 EXPOSE 8081/tcp

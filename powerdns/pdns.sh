@@ -1,3 +1,5 @@
+#!/bin/sh
+
 cat >/etc/powerdns/pdns.conf <<EOF
 setuid=pdns
 setgid=pdns
@@ -29,5 +31,31 @@ enable-lua-records=1
 version-string=anonymous
 default-soa-edit=INCEPTION-INCREMENT
 EOF
+
+init_db() {
+    export PGPASSWORD=$PG_PASSWORD
+    psql -h $PG_HOST \
+        -U $PG_USER \
+        -f /usr/share/pdns-backend-pgsql/schema/schema.pgsql.sql 
+}
+
+check_db() {
+   export PGPASSWORD=$PG_PASSWORD
+   export TABCOUNT=$(psql -h $PG_HOST \
+        -U $PG_USER \
+        -t -c "select count(*) from pg_tables where schemaname='public'")
+
+    if [ $TABCOUNT -gt 0 ]; then
+        echo schema exists
+        return 1
+    else
+        echo create schema
+        return 0
+    fi        
+}
+
+if check_db; then
+  init_db;
+fi
 
 pdns_server
