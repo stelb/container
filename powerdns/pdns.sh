@@ -33,19 +33,20 @@ default-soa-edit=INCEPTION-INCREMENT
 EOF
 
 init_db() {
-    export PGPASSWORD=$PG_PASSWORD
-    psql -h $PG_HOST \
-        -U $PG_USER \
+    export PGPASSWORD="$PG_PASSWORD"
+    psql -h "$PG_HOST" \
+        -U "$PG_USER" \
         -f /usr/share/pdns-backend-pgsql/schema/schema.pgsql.sql 
 }
 
 check_db() {
-   export PGPASSWORD=$PG_PASSWORD
-   export TABCOUNT=$(psql -h $PG_HOST \
-        -U $PG_USER \
+   export PGPASSWORD="$PG_PASSWORD"
+   TABCOUNT=$(psql -h "$PG_HOST" \
+        -U "$PG_USER" \
         -t -c "select count(*) from pg_tables where schemaname='public'")
+    export TABCOUNT
 
-    if [ $TABCOUNT -gt 0 ]; then
+    if [ "$TABCOUNT" -gt 0 ]; then
         echo schema exists
         return 1
     else
