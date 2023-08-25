@@ -7,7 +7,7 @@ setgid=pdns
 # https://doc.powerdns.com/authoritative/backends/generic-postgresql.html
 launch=gpgsql
 gpgsql-host=${PG_HOST}
-#gpgsql-port=${PG_PORT}
+gpgsql-port=${PG_PORT}
 gpgsql-dbname=${PG_DATABASE}
 gpgsql-user=${PG_USER}
 gpgsql-password=${PG_PASSWORD}
