@@ -18,6 +18,7 @@ ENV PG_USER=pdns
 ENV PG_PASSWORD=changeit
 
 ENV PDNS_APIKEY=changeit
+ENV PDNS_WEBSERVERPASSWORD=changeit
 
 ADD pdns.sh /pdns.sh
 RUN chmod u+x /pdns.sh
