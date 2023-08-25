@@ -17,6 +17,7 @@ loglevel=4
 master=yes
 slave=no
 webserver=yes
+dnsupdate=yes
 api=yes
 api-key=${PDNS_APIKEY}
 daemon=no
