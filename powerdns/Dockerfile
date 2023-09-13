@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM debian:bullseye-slim
+FROM debian:bullseye-20230904-slim
 
 RUN apt-get update && apt-get upgrade -y && apt-get clean
 
